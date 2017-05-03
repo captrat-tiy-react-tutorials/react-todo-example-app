@@ -1,10 +1,20 @@
 // create-react-app uses App.js as the root component
 // start each component by importing the necessary libraries and files
 import React, { Component } from 'react'
+import Rebase from 're-base'
 import TaskShow from './TaskShow'
 import TaskAdd from './TaskAdd'
 import TaskList from './TaskList'
 import './App.css'
+
+const base = Rebase.createClass({
+    apiKey: "AIzaSyAbHmn9E0p2-oU164at4-wCiSc4kvNO6tQ",
+    authDomain: "react-todo-example-app.firebaseapp.com",
+    databaseURL: "https://react-todo-example-app.firebaseio.com",
+    projectId: "react-todo-example-app",
+    storageBucket: "react-todo-example-app.appspot.com",
+    messagingSenderId: "110823413241"
+}, 'react-todo-example-app');
 
 // Keep all your state in App.js
 // because it uses more than just plain HTML and props,
@@ -27,7 +37,7 @@ class App extends Component {
       tasks: {
          0: {
            key: "0",
-           title: "Rock the casba",
+           title: "Rock the casbah",
            description: "dance the night away",
            completed_at: "Fri Apr 28 2017 22:35:59 GMT-0600 (MDT)",
          },
@@ -38,7 +48,7 @@ class App extends Component {
          },
          2: {
            key: "2",
-           title: "Rock remaining assignnments",
+           title: "Rock remaining assignments",
            description: "finish any lingering assignments",
          },
          42: {
@@ -54,7 +64,21 @@ class App extends Component {
        },
     }
   }
+//modify Firebase' default elements to something identifiable:
+  componentDidMount(){
+    base.syncState(`todoList`, {
+      context: this,
+      state: 'tasks',
+    });
+    base.syncState(`showOptions`, {
+      context: this,
+      state: 'show',
+    })
+  }
 
+  componentWillUnmount(){
+    base.removeBinding(this.ref);
+}
   // addTask, completeTask, toggleView, and filterTasks are all functions that
   // will modify the application's state and/or props
   // several of these functions will be passed down to lower-level components
