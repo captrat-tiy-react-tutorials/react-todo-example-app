@@ -132,7 +132,7 @@ class App extends Component {
     this.setState({show: showState})  // update this.state.show
   }
 
-  // filteTasks evaluates the this.state.show filter options to determine what
+  // filterTasks evaluates the this.state.show filter options to determine what
   // tasks will eventually be sent down to the TaskList component as props
   filterTasks () {
     // if both this.state.show options are true, show all tasks
